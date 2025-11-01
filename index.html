@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение на свадьбу | Анна и Алексей</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Playfair Display', serif;
+            background: #fef9f6;
+            color: #5a4c3e;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Анимация конверта */
+        .envelope-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #fef9f6 0%, #f8f0e9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeOut 0.5s ease-in-out 2s forwards;
+        }
+
+        .envelope {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #d4a76a;
+            border-radius: 10px;
+            transform-style: preserve-3d;
+            animation: envelopeFloat 3s ease-in-out infinite;
+        }
+
+        .envelope:before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: 0;
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 50px solid #b8935c;
+        }
+
+        .letter {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 260px;
+            height: 160px;
+            background: white;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            transform: translateY(0);
+            animation: letterOpen 2s ease-in-out forwards;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .letter h2 {
+            color: #d4a76a;
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+
+        .letter p {
+            color: #5a4c3e;
+            font-size: 1rem;
+        }
+
+        /* Сердечки */
+        .heart {
+            position: absolute;
+            color: #ff6b6b;
+            font-size: 20px;
+            animation: heartFloat 3s ease-in-out infinite;
+        }
+
+        .heart:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .heart:nth-child(2) { top: 20%; right: 15%; animation-delay: 0.5s; }
+        .heart:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 1s; }
+        .heart:nth-child(4) { bottom: 15%; right: 25%; animation-delay: 1.5s; }
+        .heart:nth-child(5) { top: 40%; left: 30%; animation-delay: 0.7s; }
+
+        /* Листочки */
+        .leaf {
+            position: absolute;
+            color: #8db596;
+            font-size: 24px;
+            animation: leafFloat 4s ease-in-out infinite;
+        }
+
+        .leaf:nth-child(6) { top: 15%; right: 10%; animation-delay: 0.3s; }
+        .leaf:nth-child(7) { bottom: 25%; left: 10%; animation-delay: 1.2s; }
+        .leaf:nth-child(8) { top: 60%; right: 20%; animation-delay: 0.8s; }
+
+        /* Анимации */
+        @keyframes envelopeFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+
+        @keyframes letterOpen {
+            0% { transform: translateY(0); opacity: 0; }
+            50% { transform: translateY(-100px); opacity: 1; }
+            100% { transform: translateY(-150px) scale(1.1); opacity: 1; }
+        }
+
+        @keyframes heartFloat {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.7; }
+            50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+        }
+
+        @keyframes leafFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
+            50% { transform: translateY(-15px) rotate(10deg); opacity: 0.9; }
+        }
+
+        @keyframes fadeOut {
+            to { opacity: 0; visibility: hidden; }
+        }
+
+        /* Стили для email ссылок */
+        .email-link {
+            color: #d4a76a;
+            text-decoration: none;
+            transition: color 0.3s;
+            border-bottom: 1px dotted #d4a76a;
+        }
+
+        .email-link:hover {
+            color: #b8935c;
+            border-bottom: 1px solid #b8935c;
+        }
+
+        /* Остальные стили остаются без изменений */
+        .hero {
+            height: 100vh;
+            background: 
+                linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.3)),
+                url('wedding-photo.jpg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+        }
+
+        .section {
+            margin: 4rem 0;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: #d4a76a;
+            font-weight: 400;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .timeline-item {
+            flex: 1;
+            min-width: 200px;
+            margin: 1rem;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .timeline-time {
+            font-size: 1.2rem;
+            color: #d4a76a;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .rsvp-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #5a4c3e;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #e0d6cc;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+
+        button {
+            background: #d4a76a;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #b8935c;
+        }
+
+        .contacts {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            text-align: center;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 3rem;
+            }
+            
+            .timeline {
+                flex-direction: column;
+            }
+            
+            .contacts {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .envelope {
+                transform: scale(0.8);
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Анимация конверта -->
+    <div class="envelope-container" id="envelopeContainer">
+        <div class="envelope">
+            <div class="letter">
+                <h2>Приглашение</h2>
+                <p>на свадьбу</p>
+            </div>
+        </div>
+        
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        <div class="heart">❤️</div>
+        
+        <div class="leaf">🍃</div>
+        <div class="leaf">🍃</div>
+        <div class="leaf">🍃</div>
+    </div>
+
+    <!-- Основное приглашение -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Анна & Алексей</h1>
+            <p>Приглашаем вас разделить с нами радость нашего дня</p>
+            <div class="date">7 ИЮЛЯ 2024</div>
+        </div>
+    </section>
+
+    <section class="container">
+        <!-- Форма подтверждения с отправкой на ваш email -->
+        <div class="section">
+            <h2 class="section-title">Подтвердите присутствие</h2>
+            <div class="success-message" id="successMessage">
+                Спасибо! Ваше подтверждение отправлено. Мы с радостью ждём вас на нашей свадьбе! ❤️
+            </div>
+            <div class="rsvp-form">
+                <form id="weddingForm" action="https://formsubmit.co/navruz20032103@gmail.com" method="POST">
+                    <!-- Настройки FormSubmit -->
+                    <input type="hidden" name="_subject" value="🎉 Новое подтверждение на свадьбу!">
+                    <input type="hidden" name="_template" value="table">
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="https://ваш-логин.github.io/wedding-invitation/#success">
+                    
+                    <div class="form-group">
+                        <label for="name">Ваше имя и фамилия *</label>
+                        <input type="text" id="name" name="name" required placeholder="Иван Иванов">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Ваш email *</label>
+                        <input type="email" id="email" name="email" required placeholder="ivan@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Ваш телефон</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67">
+                    </div>
+                    <div class="form-group">
+                        <label for="guests">Количество гостей *</label>
+                        <select id="guests" name="guests" required>
+                            <option value="1">1 человек</option>
+                            <option value="2" selected>2 человека</option>
+                            <option value="3">3 человека</option>
+                            <option value="4">4 человека</option>
+                            <option value="5">5+ человек</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="alergies">Аллергии или особенности питания</label>
+                        <input type="text" id="alergies" name="alergies" placeholder="Например, вегетарианское меню">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Ваши пожелания и поздравления</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Мы будем рады вашим пожеланиям..."></textarea>
+                    </div>
+                    <button type="submit">Подтвердить присутствие</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Контакты с вашими данными -->
+        <div class="section">
+            <h2 class="section-title">Контакты</h2>
+            <p style="margin-bottom: 2rem;">Если у вас есть вопросы, напишите или позвоните нам:</p>
+            <div class="contacts">
+                <div class="contact-item">
+                    <h3>Невеста Анна</h3>
+                    <p>+7 (952) 001-03-21</p>
+                    <p><a href="mailto:navruz20032103@gmail.com" class="email-link">navruz20032103@gmail.com</a></p>
+                </div>
+                <div class="contact-item">
+                    <h3>Жених Алексей</h3>
+                    <p>+7 (952) 001-03-21</p>
+                    <p><a href="mailto:navruz20032103@gmail.com" class="email-link">navruz20032103@gmail.com</a></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Остальной контент -->
+        <div class="section">
+            <h2 class="section-title">Детали праздника</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">15:00</div>
+                    <h3>Церемония</h3>
+                    <p>ЗАГС Центральный<br>ул. Цветочная, 15</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">17:00</div>
+                    <h3>Фуршет</h3>
+                    <p>Ресторан "Лето"<br>Парковая набережная, 8</p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-time">19:00</div>
+                    <h3>Банкет</h3>
+                    <p>Ресторан "Лето"<br>Торжественный ужин и танцы</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Автоматическое скрытие конверта через 2 секунды
+        setTimeout(() => {
+            document.getElementById('envelopeContainer').style.display = 'none';
+        }, 2000);
+
+        // Обработка успешной отправки формы
+        document.getElementById('weddingForm').addEventListener('submit', function(e) {
+            // Показываем сообщение об успехе
+            setTimeout(() => {
+                document.getElementById('successMessage').style.display = 'block';
+                this.reset();
+            }, 1000);
+        });
+
+        // Проверяем URL на наличие #success (после перенаправления)
+        if (window.location.hash === '#success') {
+            document.getElementById('successMessage').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
